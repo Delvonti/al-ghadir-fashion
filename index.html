@@ -3,230 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AL GHADIR | Management Suite</title>
+    <title>Al Ghadir Fashion | Elegance in Every Motion</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     
     <style>
         :root { --accent: #C5A059; }
-        body { font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; background-color: #FAF9F6; }
+        body { font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
         h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
-        .page-section { display: none; min-height: 80vh; }
-        .active-section { display: block; animation: fadeIn 0.8s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .nav-link { cursor: pointer; transition: color 0.3s; }
-        .nav-link:hover { color: var(--accent); }
+        
+        .fade-in { animation: fadeIn 1.2s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .cart-open { transform: translateX(0) !important; }
+        .overlay-active { display: block !important; }
     </style>
 </head>
-<body class="text-[#1A1A1A]">
+<body class="bg-[#FAF9F6] text-[#1A1A1A] overflow-x-hidden">
 
-    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 px-6 py-8 md:py-14 transition-all" id="navbar">
-        <div class="max-w-7xl mx-auto flex flex-col items-center">
-            <h1 onclick="showPage('home')" class="text-6xl md:text-9xl font-bold tracking-[0.3em] uppercase cursor-pointer hover:opacity-70 transition-opacity mb-8">
-                Al Ghadir
-            </h1>
-            
-            <div class="w-full flex justify-between items-center">
-                <div class="flex-1 flex gap-8 text-[10px] uppercase tracking-[0.3em] font-medium">
-                    <span onclick="showPage('home')" class="nav-link">Shop</span>
-                    <span onclick="showPage('size-guide')" class="nav-link">Size Guide</span>
-                </div>
-                
-                <div class="flex-1 flex justify-end gap-6 items-center">
-                    <button onclick="toggleCart()" class="relative group">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                        <span id="cartBadge" class="absolute -top-1 -right-2 bg-[#C5A059] text-white text-[9px] rounded-full h-4 w-4 flex items-center justify-center opacity-0 transition-opacity">0</span>
-                    </button>
-                    <button onclick="showPage('admin')" class="text-[9px] border border-black px-2 py-1 uppercase hover:bg-black hover:text-white transition">Admin</button>
-                </div>
+    <div id="overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/40 z-[60] hidden backdrop-blur-sm transition-opacity"></div>
+
+    <div id="cartDrawer" class="fixed top-0 right-0 h-full w-full md:w-[400px] bg-white z-[70] shadow-2xl transition-transform duration-500 translate-x-full flex flex-col">
+        <div class="p-6 border-b flex justify-between items-center">
+            <h3 class="text-2xl italic">Your Selection</h3>
+            <button onclick="toggleCart()" class="text-3xl font-light hover:rotate-90 transition-transform">&times;</button>
+        </div>
+        <div id="cartItems" class="flex-1 overflow-y-auto p-6 space-y-6">
+            <p class="text-gray-400 text-center mt-10">Your bag is empty.</p>
+        </div>
+        <div class="p-6 border-t bg-gray-50">
+            <div class="flex justify-between mb-4 font-semibold">
+                <span>Total</span>
+                <span id="cartTotal">$0.00</span>
             </div>
+            <button class="w-full bg-[#1A1A1A] text-white py-4 tracking-[0.2em] uppercase text-sm hover:bg-[#C5A059] transition-colors">Checkout</button>
+        </div>
+    </div>
+
+    <nav class="fixed w-full z-50 transition-all duration-300 px-6 py-6 flex justify-between items-center" id="navbar">
+        <div class="flex-1 hidden md:flex gap-8 text-[10px] uppercase tracking-[0.3em] font-medium">
+            <a href="#collection" class="hover:text-[#C5A059] transition">Shop</a>
+            <a href="#story" class="hover:text-[#C5A059] transition">Our Story</a>
+        </div>
+        
+        <div class="flex-1 text-center">
+            <h1 class="text-2xl md:text-4xl font-bold tracking-tighter italic">Al Ghadir</h1>
+        </div>
+
+        <div class="flex-1 flex justify-end gap-6 items-center">
+            <button onclick="toggleCart()" class="relative group">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                <span id="cartBadge" class="absolute -top-1 -right-2 bg-[#C5A059] text-white text-[9px] rounded-full h-4 w-4 flex items-center justify-center opacity-0 transition-opacity">0</span>
+            </button>
         </div>
     </nav>
 
-    <div class="h-64 md:h-80"></div>
+    <section class="relative h-screen flex items-center justify-center text-center text-white">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=2070" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black/20"></div>
+        </div>
+        <div class="relative z-10 fade-in px-4">
+            <span class="uppercase tracking-[0.5em] text-xs mb-4 block">Al Ghadir Fashion</span>
+            <h2 class="text-5xl md:text-8xl mb-8 leading-tight">Curating Timeless<br><span class="italic">Sophistication</span></h2>
+            <a href="#collection" class="inline-block border border-white px-10 py-4 uppercase text-[10px] tracking-[0.4em] hover:bg-white hover:text-black transition-all">Explore Collection</a>
+        </div>
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-50">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+        </div>
+    </section>
 
-    <main>
-        
-        <section id="home" class="page-section active-section">
-            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-y-20 gap-x-10" id="productGrid">
-                </div>
-        </section>
+    <section id="collection" class="max-w-7xl mx-auto px-6 py-32">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
+            <div class="max-w-md">
+                <h3 class="text-4xl italic mb-4">The Spring Edit</h3>
+                <p class="text-gray-500 text-sm leading-relaxed font-light">A dialogue between traditional craftsmanship and modern silhouettes. Designed for the woman who finds power in grace.</p>
+            </div>
+            <div class="flex gap-4 text-[10px] uppercase tracking-widest font-semibold">
+                <button class="text-[#C5A059] border-b border-[#C5A059] pb-1">All Pieces</button>
+                <button class="text-gray-400 hover:text-black transition">Dresses</button>
+                <button class="text-gray-400 hover:text-black transition">Outerwear</button>
+            </div>
+        </div>
 
-        <section id="admin" class="page-section max-w-2xl mx-auto px-6 py-20">
-            <div class="bg-white p-10 border shadow-xl">
-                <h2 class="text-3xl italic mb-8">Inventory Manager</h2>
-                <div class="space-y-6">
-                    <div>
-                        <label class="text-[10px] uppercase tracking-widest block mb-2">Item Image</label>
-                        <input type="file" id="itemImage" accept="image/*" class="w-full text-xs font-light file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
-                    </div>
-                    <div>
-                        <label class="text-[10px] uppercase tracking-widest block mb-2">Item Name</label>
-                        <input type="text" id="itemName" placeholder="e.g. Sahara Silk Wrap" class="w-full border-b py-2 focus:outline-none font-light">
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="flex-1">
-                            <label class="text-[10px] uppercase tracking-widest block mb-2">Price ($)</label>
-                            <input type="number" id="itemPrice" placeholder="299" class="w-full border-b py-2 focus:outline-none font-light">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="text-[10px] uppercase tracking-widest block mb-2">Short Description</label>
-                        <textarea id="itemDesc" placeholder="Describe the fit and fabric..." class="w-full border-b py-2 focus:outline-none font-light h-24"></textarea>
-                    </div>
-                    <button onclick="uploadNewProduct()" class="w-full bg-[#C5A059] text-white py-4 uppercase text-[10px] tracking-[0.3em] font-bold shadow-lg hover:bg-black transition-all">Publish to Shop</button>
-                </div>
-                <div class="mt-10 border-t pt-6">
-                    <button onclick="clearStorage()" class="text-[9px] text-red-400 uppercase tracking-widest">Reset Shop to Defaults</button>
+        <div id="productGrid" class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-16">
+            </div>
+    </section>
+
+    <section id="story" class="bg-white py-32 px-6">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-20 items-center">
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=1000" class="w-full h-[600px] object-cover shadow-2xl">
+                <div class="absolute -bottom-10 -right-10 hidden md:block w-64 h-80 bg-[#FAF9F6] p-4 shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover">
                 </div>
             </div>
-        </section>
-
-        <section id="size-guide" class="page-section max-w-4xl mx-auto px-6 py-20">
-            <h2 class="text-4xl italic mb-10 text-center">Size Guide</h2>
-            <div class="bg-white p-8 border border-gray-100 shadow-sm">
-                <table class="w-full text-left border-collapse">
-                    <thead class="border-b">
-                        <tr class="text-[10px] uppercase tracking-widest text-gray-400"><th class="py-4">Size</th><th class="py-4">Bust (cm)</th><th class="py-4">Waist (cm)</th></tr>
-                    </thead>
-                    <tbody class="text-sm font-light">
-                        <tr class="border-b"><td class="py-4 font-bold">Small</td><td class="py-4">84-88</td><td class="py-4">66-70</td></tr>
-                        <tr class="border-b"><td class="py-4 font-bold">Medium</td><td class="py-4">89-93</td><td class="py-4">71-75</td></tr>
-                    </tbody>
-                </table>
+            <div class="space-y-8">
+                <h3 class="text-5xl italic leading-tight text-[#1A1A1A]">Rooted in Heritage,<br>Designed for Today.</h3>
+                <p class="text-gray-600 font-light leading-loose">
+                    Al Ghadir Fashion began with a simple vision: to bridge the gap between cultural heritage and contemporary luxury. Every piece in our collection is a testament to quality, using ethically sourced fabrics and artisan techniques that have been passed down through generations.
+                </p>
+                <button class="text-[10px] uppercase tracking-[0.4em] font-bold border-b-2 border-black pb-2 hover:text-[#C5A059] hover:border-[#C5A059] transition">Read Our Heritage</button>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="contact" class="page-section max-w-2xl mx-auto px-6 py-20 text-center">
-            <h2 class="text-4xl italic mb-4">Contact</h2>
-            <p class="font-light">concierge@alghadirfashion.com</p>
-        </section>
-
-    </main>
-
-    <footer class="bg-white border-t border-gray-100 mt-20 py-20 px-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
-            <p class="text-[10px] uppercase tracking-widest text-gray-400">© 2026 Al Ghadir Fashion</p>
-            <div class="flex gap-8 text-[10px] uppercase tracking-widest">
-                <span onclick="showPage('contact')" class="nav-link">Contact</span>
-                <span onclick="showPage('admin')" class="nav-link text-[#C5A059]">Inventory Manager</span>
+    <footer class="bg-[#1A1A1A] text-white pt-24 pb-12 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
+            <div class="col-span-1 md:col-span-2">
+                <h1 class="text-3xl font-bold italic mb-6">Al Ghadir</h1>
+                <p class="text-gray-400 font-light max-w-sm leading-loose">Join our world. Subscribe to receive updates on new collections and exclusive invitations.</p>
+                <div class="mt-8 flex border-b border-gray-700 pb-2 max-w-sm">
+                    <input type="email" placeholder="Email Address" class="bg-transparent border-none focus:outline-none flex-1 text-sm italic">
+                    <button class="uppercase text-[10px] tracking-widest text-[#C5A059]">Join</button>
+                </div>
             </div>
+            <div>
+                <h4 class="text-xs uppercase tracking-widest font-bold mb-6 text-gray-500">Service</h4>
+                <ul class="space-y-4 text-sm font-light text-gray-400">
+                    <li><a href="#" class="hover:text-white">Shipping & Returns</a></li>
+                    <li><a href="#" class="hover:text-white">Size Guide</a></li>
+                    <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xs uppercase tracking-widest font-bold mb-6 text-gray-500">Social</h4>
+                <ul class="space-y-4 text-sm font-light text-gray-400">
+                    <li><a href="#" class="hover:text-white">Instagram</a></li>
+                    <li><a href="#" class="hover:text-white">Pinterest</a></li>
+                    <li><a href="#" class="hover:text-white">Vogue</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between text-[10px] uppercase tracking-[0.2em] text-gray-600">
+            <p>&copy; 2026 Al Ghadir Fashion. All Rights Reserved.</p>
+            <p>alghadirfashion.com</p>
         </div>
     </footer>
 
-    <div id="cartDrawer" class="fixed top-0 right-0 h-full w-full md:w-[400px] bg-white z-[70] shadow-2xl transition-transform duration-500 translate-x-full flex flex-col">
-        <div class="p-8 border-b flex justify-between items-center"><h3 class="text-xl italic">Shopping Bag</h3><button onclick="toggleCart()" class="text-2xl font-light">&times;</button></div>
-        <div id="cartItems" class="flex-1 overflow-y-auto p-8 space-y-6"></div>
-        <div class="p-8 border-t space-y-4">
-            <div class="flex justify-between font-bold"><span>Total</span><span id="cartTotal">$0.00</span></div>
-            <button class="w-full bg-black text-white py-4 text-[10px] uppercase tracking-widest">Checkout</button>
-        </div>
-    </div>
-    <div id="overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/30 z-[60] hidden backdrop-blur-sm"></div>
-
     <script>
-        // INITIAL DATA
-        const defaultProducts = [
-            { id: 1711234, name: "Silk Flowing Midi", price: 240, desc: "Hand-woven silk", img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000" },
-            { id: 1711235, name: "Structured Blazer", price: 310, desc: "Linen blend", img: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=1000" }
+        // PRODUCT DATA
+        const products = [
+            { id: 1, name: "Silk Flowing Midi", price: 240, img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000" },
+            { id: 2, name: "Linen Structured Blazer", price: 310, img: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=1000" },
+            { id: 3, name: "Monochrome Gown", price: 450, img: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&q=80&w=1000" },
+            { id: 4, name: "Desert Sand Coat", price: 520, img: "https://images.unsplash.com/photo-1591085686350-798c0f9faa7f?auto=format&fit=crop&q=80&w=1000" },
+            { id: 5, name: "Gold Silk Wrap", price: 180, img: "https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&q=80&w=1000" },
+            { id: 6, name: "Ivory Wide Trousers", price: 210, img: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=1000" }
         ];
 
-        let products = JSON.parse(localStorage.getItem('alghadir_items')) || defaultProducts;
         let cart = [];
 
-        function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active-section'));
-            document.getElementById(pageId).classList.add('active-section');
-            window.scrollTo(0, 0);
-        }
-
-        function toggleCart() {
-            document.getElementById('cartDrawer').classList.toggle('translate-x-full');
-            document.getElementById('overlay').classList.toggle('hidden');
-        }
-
-        // UPLOAD TOOL LOGIC
-        function uploadNewProduct() {
-            const name = document.getElementById('itemName').value;
-            const price = document.getElementById('itemPrice').value;
-            const desc = document.getElementById('itemDesc').value;
-            const imageInput = document.getElementById('itemImage');
-
-            if (!name || !price || !imageInput.files[0]) {
-                alert("Please fill in all fields and select an image.");
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const newProduct = {
-                    id: Date.now(),
-                    name: name,
-                    price: parseFloat(price),
-                    desc: desc,
-                    img: e.target.result // This saves the actual image data
-                };
-
-                products.unshift(newProduct);
-                localStorage.setItem('alghadir_items', JSON.stringify(products));
-                
-                renderShop();
-                showPage('home');
-                
-                // Clear form
-                document.getElementById('itemName').value = '';
-                document.getElementById('itemPrice').value = '';
-                document.getElementById('itemDesc').value = '';
-            };
-            reader.readAsDataURL(imageInput.files[0]);
-        }
-
-        function renderShop() {
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = products.map(p => `
+        // RENDER PRODUCTS
+        const grid = document.getElementById('productGrid');
+        products.forEach(p => {
+            grid.innerHTML += `
                 <div class="group cursor-pointer">
                     <div class="relative overflow-hidden aspect-[3/4] bg-[#F2F0ED]">
-                        <img src="${p.img}" class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
-                        <button onclick="addToCart(${p.id})" class="absolute bottom-0 w-full bg-white/95 py-5 translate-y-full group-hover:translate-y-0 transition-transform uppercase text-[10px] tracking-[0.2em] font-bold">Add to Bag</button>
+                        <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <button onclick="addToCart(${p.id})" class="absolute bottom-0 left-0 right-0 bg-white/90 py-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 text-[10px] uppercase tracking-widest font-bold">Add to Bag</button>
                     </div>
-                    <div class="mt-8">
-                        <div class="flex justify-between items-baseline mb-2">
-                            <h4 class="text-lg font-light tracking-tight">${p.name}</h4>
-                            <span class="text-sm font-medium">$${p.price}</span>
+                    <div class="mt-6 flex justify-between items-start">
+                        <div>
+                            <h4 class="text-sm font-medium tracking-tight">${p.name}</h4>
+                            <p class="text-xs text-gray-400 mt-1 uppercase tracking-tighter">Premium Silk</p>
                         </div>
-                        <p class="text-[10px] text-gray-400 uppercase tracking-widest font-light">${p.desc}</p>
+                        <span class="text-sm font-light">$${p.price}</span>
                     </div>
                 </div>
-            `).join('');
+            `;
+        });
+
+        // NAVBAR SCROLL EFFECT
+        window.onscroll = () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-white', 'shadow-sm', 'py-4');
+                nav.classList.remove('py-6', 'text-white');
+            } else {
+                nav.classList.remove('bg-white', 'shadow-sm', 'py-4');
+                nav.classList.add('py-6');
+            }
+        };
+
+        // CART LOGIC
+        function toggleCart() {
+            document.getElementById('cartDrawer').classList.toggle('cart-open');
+            document.getElementById('overlay').classList.toggle('overlay-active');
         }
 
         function addToCart(id) {
-            const item = products.find(p => p.id === id);
-            cart.push(item);
-            updateCartUI();
+            const product = products.find(p => p.id === id);
+            cart.push(product);
+            updateCart();
             toggleCart();
         }
 
-        function updateCartUI() {
+        function updateCart() {
+            const container = document.getElementById('cartItems');
             const badge = document.getElementById('cartBadge');
-            const list = document.getElementById('cartItems');
-            const total = cart.reduce((s, i) => s + i.price, 0);
-
-            badge.innerText = cart.length;
-            badge.style.opacity = cart.length > 0 ? "1" : "0";
-            list.innerHTML = cart.map(i => `<div class="flex gap-4 items-center"><img src="${i.img}" class="w-16 h-20 object-cover"><div class="text-[10px] uppercase font-bold">${i.name}<br><span class="font-light">$${i.price}</span></div></div>`).join('');
-            document.getElementById('cartTotal').innerText = `$${total.toFixed(2)}`;
-        }
-
-        function clearStorage() {
-            if(confirm("This will delete all custom uploaded items. Continue?")) {
-                localStorage.removeItem('alghadir_items');
-                location.reload();
+            const totalEl = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `<p class="text-gray-400 text-center mt-10">Your bag is empty.</p>`;
+                badge.style.opacity = '0';
+            } else {
+                badge.style.opacity = '1';
+                badge.innerText = cart.length;
+                container.innerHTML = cart.map((item, index) => `
+                    <div class="flex gap-4 items-center animate-fade-in">
+                        <img src="${item.img}" class="w-20 h-24 object-cover">
+                        <div class="flex-1">
+                            <h4 class="text-sm font-medium">${item.name}</h4>
+                            <p class="text-xs text-gray-400 mt-1">$${item.price}</p>
+                            <button onclick="removeItem(${index})" class="text-[10px] uppercase text-red-800 mt-2">Remove</button>
+                        </div>
+                    </div>
+                `).join('');
             }
+            
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            totalEl.innerText = `$${total.toFixed(2)}`;
         }
 
-        // Initial Load
-        renderShop();
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
     </script>
 </body>
 </html>
